@@ -31,18 +31,18 @@ public final class Utility {
         }
     }
 
-    public String postRequest(BaseRequest input) {
+    public String postRequest(BaseRequest request) {
         try {
             log.info("Enter PostRequest function...");
-            String url = input.getURL();
-            if (input.getHeaders() != null && !input.getHeaders().isEmpty()) {
-                input.getHeaders().setContentType(MediaType.APPLICATION_JSON);
+            String url = request.getURL();
+            if (request.getHeaders() != null && !request.getHeaders().isEmpty()) {
+                request.getHeaders().setContentType(MediaType.APPLICATION_JSON);
             } else {
                 HttpHeaders headers = new HttpHeaders();
                 headers.setContentType(MediaType.APPLICATION_JSON);
-                input.setHeaders(headers);
+                request.setHeaders(headers);
             }
-            ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, input.getBody(), String.class);
+            ResponseEntity<String> responseEntity = restTemplate.postForEntity(url, request.getBody(), String.class);
             return responseEntity.getBody();
         } catch (Exception e) {
             return e.getMessage();
