@@ -1,5 +1,6 @@
 package com.welend.welend.model;
 
+import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,7 @@ import java.util.Date;
 
 @Getter
 @Setter
+@Table()
 public class User {
     private int id;
     private String email;

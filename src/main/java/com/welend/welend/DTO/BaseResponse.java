@@ -1,13 +1,15 @@
 package com.welend.welend.DTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@AllArgsConstructor
 public class BaseResponse {
     private String status;
     private String message;
-    private String data;
+    private Object data;
 
 }
