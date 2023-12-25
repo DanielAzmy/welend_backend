@@ -1,47 +1,107 @@
 package com.welend.welend.model;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.Setter;
-
+import org.springframework.data.annotation.Id;
+import java.math.BigInteger;
 import java.util.Date;
 
 @Getter
 @Setter
-@Table()
+@Table(name = "USER")
 public class User {
-    private int id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private BigInteger id;
+
+    @Column(name = "email")
     private String email;
+
+    @Column(name = "password")
     private String password;
 
-//    national id data
-    private String first_name;
-    private String full_name;
-    private String birth_date;
+    @Column(name = "first_name")
+    private String firstName;
+
+    @Column(name = "full_name")
+    private String fullName;
+
+    @Column(name = "birth_date")
+    private String birthDate;
+
+    @Column(name = "area")
     private String area;
+
+    @Column(name = "street")
     private String street;
+
+    @Column(name = "governorate")
     private String governorate;
-    private String national_id;
-    private String nid_serial_number;
+
+    @Column(name = "national_id")
+    private String nationalId;
+
+    @Column(name = "nid_serial_number")
+    private String nidSerialNumber;
+
+    @Column(name = "gender")
     private String gender;
+
+    @Column(name = "religion")
     private String religion;
-    private String spouse_name;
-    private String profession_1;
-    private String profession_2;
-    private Date   release_date;
-    private String marital_status;
 
-//    business data
-    private String company_name;
-    private String Year_started_operations;
-    private String company_industry;
-    private String last_year_sales;
-    private int number_employees;
-    private Date commercial_registration_date;
-    private String tax_registration_number;
-    private String tax_card_number;
-    private String owner_nationality;
+    @Column(name = "spouse_name")
+    private String spouseName;
+
+    @Column(name = "profession_1")
+    private String profession1;
+
+    @Column(name = "profession_2")
+    private String profession2;
+
+    @Column(name = "release_date")
+    private Date releaseDate;
+
+    @Column(name = "marital_status")
+    private String maritalStatus;
+
+
+    //    business data
+    @Column(name = "company_name")
+    private String companyName;
+
+    @Column(name = "year_started_operations")
+    private String yearStartedOperations;
+
+    @Column(name = "company_industry")
+    private String companyIndustry;
+
+    @Column(name = "last_year_sales")
+    private String lastYearSales;
+
+    @Column(name = "number_employees")
+    private int numberEmployees;
+
+    @Column(name = "commercial_registration_date")
+    private Date commercialRegistrationDate;
+
+    @Column(name = "tax_registration_number")
+    private String taxRegistrationNumber;
+
+    @Column(name = "tax_card_number")
+    private String taxCardNumber;
+
+    @Column(name = "owner_nationality")
+    private String ownerNationality;
+
+    @Column(name = "score")
     private double score;
-    private String website;
 
+    @Column(name = "website")
+    private String website;
 }
