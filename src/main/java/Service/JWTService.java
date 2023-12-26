@@ -15,13 +15,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class JWTService {
-    private final String secretKey = "kCQFey/danialg*TD1dL7dumina^;+X>uZE~ufR6/q";
-    public String generateToken(Long id) {
+    private static final String secretKey = "kCQFey/danialg*TD1dL7dumina^;+X>uZE~ufR6/q";
+    public static String generateToken(Long id) {
         try {
             long nowMillis = System.currentTimeMillis();
             Date now = new Date(nowMillis);
             Date exp = calculateExpirationTime(now);
-            Algorithm algorithm = Algorithm.HMAC256(this.secretKey);
+            Algorithm algorithm = Algorithm.HMAC256(secretKey);
             String token = JWT.create()
                     .withIssuer("welend")
                     .withIssuedAt(now)
@@ -36,16 +36,16 @@ public class JWTService {
         }
     }
 
-    public Date calculateExpirationTime(Date now) {
+    private static Date calculateExpirationTime(Date now) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(now);
         calendar.add(Calendar.HOUR_OF_DAY, 3);
         return calendar.getTime();
     }
 
-    DecodedJWT parseToken(String token) {
+    public static DecodedJWT parseToken(String token) {
         try {
-            Algorithm algorithm = Algorithm.HMAC256(this.secretKey);
+            Algorithm algorithm = Algorithm.HMAC256(secretKey);
             JWTVerifier verifier = JWT.require(algorithm).build();
             return verifier.verify(token);
         } catch (JWTVerificationException exception) {

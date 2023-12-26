@@ -1,9 +1,9 @@
 package servlets;
 
+import Enum.ResponseStatus;
 import RequestModel.UserLoginModel;
 import ResponseModel.BaseResponse;
 import Service.UserService;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -30,8 +30,9 @@ public class Login extends HttpServlet {
             BaseResponse result = gson.fromJson(responseBody, BaseResponse.class);
             handleResponse(resp, result);
         } catch (Exception e) {
-            log.info("Enter Login function");
-            throw new RuntimeException();
+            log.info("Error in Login function");
+            BaseResponse result = new BaseResponse(ResponseStatus.Error.toString(), e.getMessage(),null);
+            handleResponse(resp, result);
         }
     }
 }
