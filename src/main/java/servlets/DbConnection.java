@@ -17,7 +17,7 @@ public class DbConnection {
         dataSource.setPassword("ertxcs");
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
-    public static NamedParameterJdbcTemplate getConnection() throws SQLException {
+    public static NamedParameterJdbcTemplate getConnection() {
         if (jdbcTemplate == null) {
             createNewJdbcTemplate();
         }
