@@ -1,5 +1,6 @@
 package Service;
 
+<<<<<<< HEAD
 import DAO.UserDAO;
 import DTO.UserRegisterInputDTO;
 import Model.User;
@@ -15,14 +16,26 @@ import static Utilities.Utility.jdbcTemplate;
 
 public class UserService {
     UserDAO userDAO;
+=======
+import DAO.SessionDAO;
+import DAO.UserDAO;
+import Model.Session;
+import Model.User;
+import RequestModel.UserLoginModel;
 
-    public static String login(UserLoginModel userLoginModel) {
-        String sql = "select * from public.get_user_by_email(:email);";
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(userLoginModel);
-        String userString = jdbcTemplate.queryForObject(sql, params, String.class);
-        BaseResponse result = gson.fromJson(userString, BaseResponse.class);
+import java.sql.SQLException;
 
-        return userString;
+public class UserService {
+    public static String login(UserLoginModel userLoginModel) throws SQLException {
+        User user = UserDAO.getUserByEmail(userLoginModel);
+>>>>>>> b574c25f3ed84f695872f6c75e564ffa1c417f71
+
+        Session session = JWTService.generateToken(user.getId());
+        if (session == null) {
+            throw new SQLException("Error in session creation.");
+        }
+        SessionDAO.saveSession(session);
+        return session.toString();
     }
     public void userRegister(UserRegisterInputDTO userRegisterInputDTO) throws SQLException {
         try {

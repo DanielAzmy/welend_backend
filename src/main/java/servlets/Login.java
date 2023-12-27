@@ -27,7 +27,7 @@ public class Login extends HttpServlet {
             UserLoginModel userLoginModel = gson.fromJson(requestBody, UserLoginModel.class);
 
             String responseBody = UserService.login(userLoginModel);
-            BaseResponse result = gson.fromJson(responseBody, BaseResponse.class);
+            BaseResponse result = new BaseResponse(ResponseStatus.Success.toString(), "Login Successfully.", responseBody);
             handleResponse(resp, result);
         } catch (Exception e) {
             log.info("Error in Login function");
