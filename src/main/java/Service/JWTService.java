@@ -16,7 +16,7 @@ import java.util.Date;
 
 public class JWTService {
     private static final String secretKey = "kCQFey/danialg*TD1dL7dumina^;+X>uZE~ufR6/q";
-    public static String generateToken(Long id) {
+    public static Session generateToken(Long id) {
         try {
             long nowMillis = System.currentTimeMillis();
             Date now = new Date(nowMillis);
@@ -29,8 +29,7 @@ public class JWTService {
                     .withClaim("id", id)
                     .sign(algorithm);
             LocalDateTime dateNow = now.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-            Session session = new Session(dateNow, SessionStatus.VALID.toString(), token, id);
-            return session.toString();
+            return new Session(dateNow, SessionStatus.VALID.toString(), token, id);
         } catch (JWTCreationException exception) {
             return null;
         }

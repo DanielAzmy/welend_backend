@@ -1,21 +1,22 @@
 package Service;
 
+import DAO.SessionDAO;
+import DAO.UserDAO;
+import Model.Session;
 import Model.User;
 import RequestModel.UserLoginModel;
-import ResponseModel.BaseResponse;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 
-import static Utilities.Utility.gson;
-import static Utilities.Utility.jdbcTemplate;
+import java.sql.SQLException;
 
 public class UserService {
+    public static String login(UserLoginModel userLoginModel) throws SQLException {
+        User user = UserDAO.getUserByEmail(userLoginModel);
 
-    public static String login(UserLoginModel userLoginModel) {
-        String sql = "select * from public.get_user_by_email(:email);";
-        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(userLoginModel);
-        String userString = jdbcTemplate.queryForObject(sql, params, String.class);
-        BaseResponse result = gson.fromJson(userString, BaseResponse.class);
-
-        return userString;
+        Session session = JWTService.generateToken(user.getId());
+        if (session == null) {
+            throw new SQLException("Error in session creation.");
+        }
+        SessionDAO.saveSession(session);
+        return session.toString();
     }
 }
