@@ -1,7 +1,7 @@
 package Service;
 
-import Model.Session;
 import Enum.SessionStatus;
+import Model.Session;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -9,6 +9,7 @@ import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -16,6 +17,7 @@ import java.util.Date;
 
 public class JWTService {
     private static final String secretKey = "kCQFey/danialg*TD1dL7dumina^;+X>uZE~ufR6/q";
+
     public static Session generateToken(Long id) {
         try {
             long nowMillis = System.currentTimeMillis();
@@ -50,5 +52,12 @@ public class JWTService {
         } catch (JWTVerificationException exception) {
             return null;
         }
+    }
+    public static Long checkTokenReturnId(String token) throws SQLException {
+        DecodedJWT decodedJWT = parseToken(token);
+        if (decodedJWT == null) {
+            throw new SQLException("unauthorized");
+        }
+        return decodedJWT.getClaim("id").asLong();
     }
 }
