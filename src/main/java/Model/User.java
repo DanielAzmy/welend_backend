@@ -1,11 +1,15 @@
 package Model;
 
+
 import java.util.Date;
 
 public class User {
     private Long id;
     private String email;
     private String password;
+    private Byte nidFrontSide;
+    private Byte nidBackSide;
+    private Byte selfie;
 
 //    national id data
     private String firstName;
@@ -37,6 +41,38 @@ public class User {
     private String ownerNationality;
     private double score;
     private String website;
+
+    public User(String email, String password, Byte nidFrontSide, Byte nidBackSide, Byte selfie) {
+        this.email = email;
+        this.password = password;
+        this.nidFrontSide = nidFrontSide;
+        this.nidBackSide = nidBackSide;
+        this.selfie = selfie;
+    }
+
+    public Byte getNidFrontSide() {
+        return nidFrontSide;
+    }
+
+    public void setNidFrontSide(Byte nidFrontSide) {
+        this.nidFrontSide = nidFrontSide;
+    }
+
+    public Byte getNidBackSide() {
+        return nidBackSide;
+    }
+
+    public void setNidBackSide(Byte nidBackSide) {
+        this.nidBackSide = nidBackSide;
+    }
+
+    public Byte getSelfie() {
+        return selfie;
+    }
+
+    public void setSelfie(Byte selfie) {
+        this.selfie = selfie;
+    }
 
     public Long getId() {
         return id;
@@ -269,4 +305,6 @@ public class User {
     public void setWebsite(String website) {
         this.website = website;
     }
+
+
 }
