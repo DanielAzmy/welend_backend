@@ -7,9 +7,9 @@ public class User {
     private Long id;
     private String email;
     private String password;
-    private Byte nidFrontSide;
-    private Byte nidBackSide;
-    private Byte selfie;
+    private String nidFrontSide;
+    private String nidBackSide;
+    private String selfie;
 
 //    national id data
     private String firstName;
@@ -42,7 +42,7 @@ public class User {
     private double score;
     private String website;
 
-    public User(String email, String password, Byte nidFrontSide, Byte nidBackSide, Byte selfie) {
+    public User(String email, String password, String nidFrontSide, String nidBackSide, String selfie) {
         this.email = email;
         this.password = password;
         this.nidFrontSide = nidFrontSide;
@@ -50,27 +50,30 @@ public class User {
         this.selfie = selfie;
     }
 
-    public Byte getNidFrontSide() {
+    public User() {
+    }
+
+    public String getNidFrontSide() {
         return nidFrontSide;
     }
 
-    public void setNidFrontSide(Byte nidFrontSide) {
+    public void setNidFrontSide(String nidFrontSide) {
         this.nidFrontSide = nidFrontSide;
     }
 
-    public Byte getNidBackSide() {
+    public String getNidBackSide() {
         return nidBackSide;
     }
 
-    public void setNidBackSide(Byte nidBackSide) {
+    public void setNidBackSide(String nidBackSide) {
         this.nidBackSide = nidBackSide;
     }
 
-    public Byte getSelfie() {
+    public String getSelfie() {
         return selfie;
     }
 
-    public void setSelfie(Byte selfie) {
+    public void setSelfie(String selfie) {
         this.selfie = selfie;
     }
 

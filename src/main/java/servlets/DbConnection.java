@@ -16,8 +16,8 @@ public class DbConnection {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName("org.postgresql.Driver");
         dataSource.setUrl("jdbc:postgresql://localhost:5432/welend");
-        dataSource.setUsername("postgres");
-        dataSource.setPassword("ertxcs");
+        dataSource.setUsername("dodo");
+        dataSource.setPassword("dodo");
         jdbcTemplate = new NamedParameterJdbcTemplate(dataSource);
     }
     public static NamedParameterJdbcTemplate getConnection() {

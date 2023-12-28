@@ -1,19 +1,20 @@
 package DTO;
 
 import java.sql.SQLException;
+
 import java.util.regex.Pattern;
 
 public class UserRegisterInputDTO {
     private String email;
     private String password;
-    private Byte nidFrontSide;
-    private Byte nidBackSide;
-    private Byte selfie;
+    private String nidFrontSide;
+    private String nidBackSide;
+    private String selfie;
 
     public UserRegisterInputDTO() {
     }
 
-    public UserRegisterInputDTO(String email, String password, Byte nidFrontSide, Byte nidBackSide, Byte selfie) {
+    public UserRegisterInputDTO(String email, String password, String nidFrontSide, String nidBackSide, String selfie) {
         this.email = email;
         this.password = password;
         this.nidFrontSide = nidFrontSide;
@@ -37,27 +38,27 @@ public class UserRegisterInputDTO {
         this.password = password;
     }
 
-    public Byte getNidFrontSide() {
+    public String getNidFrontSide() {
         return nidFrontSide;
     }
 
-    public void setNidFrontSide(Byte nidFrontSide) {
+    public void setNidFrontSide(String nidFrontSide) {
         this.nidFrontSide = nidFrontSide;
     }
 
-    public Byte getnidBackSide() {
+    public String getnidBackSide() {
         return nidBackSide;
     }
 
-    public void setnidBackSide(Byte nidBackSide) {
+    public void setnidBackSide(String nidBackSide) {
         this.nidBackSide = nidBackSide;
     }
 
-    public Byte getSelfie() {
+    public String getSelfie() {
         return selfie;
     }
 
-    public void setSelfie(Byte selfie) {
+    public void setSelfie(String selfie) {
         this.selfie = selfie;
     }
 
