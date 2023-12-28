@@ -1,11 +1,13 @@
 package Model;
 
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class Session {
     private long id;
     private long userId;
     private LocalDateTime creationTime;
+    private Timestamp creationTimeStamp;
     private String token;
     private String status;
 

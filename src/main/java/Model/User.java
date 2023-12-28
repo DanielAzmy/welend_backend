@@ -25,7 +25,7 @@ public class User {
     private String spouseName;
     private String profession1;
     private String profession2;
-    private Date   releaseDate;
+    private Date releaseDate;
     private String maritalStatus;
 
 
