@@ -1,11 +1,12 @@
 package DAO;
 
+import DTO.SessionDTO;
+import Model.Session;
 import Model.User;
 import RequestModel.UserLoginModel;
 import ResponseModel.BaseResponse;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-import Enum.ResponseStatus;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import servlets.DbConnection;
 
@@ -14,8 +15,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import static Utilities.Utility.gson;
-import static Utilities.Utility.jdbcTemplate;
+import static Utilities.Utility.*;
 
 public class UserDAO<T> {
     public static Connection con;
@@ -47,6 +47,21 @@ public class UserDAO<T> {
         BaseResponse data = gson.fromJson(userString, BaseResponse.class);
         return mapToUser(data);
     }
+
+    public static Session getUserSession(Long id) throws SQLException {
+        try {
+            String sql = "select * from public.get_user_session(:id);";
+            SessionDTO sessionDTO = new SessionDTO(Math.toIntExact(id));
+            BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(sessionDTO);
+            String sessionString = jdbcTemplate.queryForObject(sql, params, String.class);
+            BaseResponse data = gson.fromJson(sessionString, BaseResponse.class);
+            return null;
+        } catch (Exception e) {
+            log.info("Error in getUserSession...");
+            throw new SQLException(e.getMessage());
+        }
+    }
+
 
     public static User mapToUser(BaseResponse userRow) {
         if (!userRow.getStatus().equals("Error")) {

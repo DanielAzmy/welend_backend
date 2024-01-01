@@ -7,11 +7,11 @@ import Enum.ResponseStatus;
 import Model.Session;
 import Model.User;
 import RequestModel.UserLoginModel;
-import ResponseModel.BaseResponse;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;
 
+import static Service.JWTService.checkTokenReturnId;
 import static Utilities.Utility.log;
 
 public class UserService {
@@ -55,5 +55,21 @@ public class UserService {
         } catch (SQLException e) {
             throw new SQLException("This Email is already Exist.");
         }
+    }
+
+    public static void logout(String token) throws SQLException {
+        Long id = checkTokenReturnId(token);
+        Session session = compareTokenWithStoredSession(id, token);
+//        if (userDAO.changeSessionStatus(session.getId(), SessionStatus.LOGGED_OUT) != 1) {
+//            throw new SQLException("unauthorized");
+//        }
+    }
+
+    public static Session compareTokenWithStoredSession(Long id, String token) throws SQLException {
+        Session session = UserDAO.getUserSession(id);
+        if (session == null || !session.getToken().equals(token)) {
+            throw new SQLException("unauthorized");
+        }
+        return session;
     }
 }
