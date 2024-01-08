@@ -3,19 +3,25 @@ package Service;
 import DAO.SessionDAO;
 import DAO.UserDAO;
 import DTO.UserRegisterInputDTO;
+import Enum.SessionStatus;
 import Enum.ResponseStatus;
 import Model.Session;
 import Model.User;
 import RequestModel.UserLoginModel;
+import ResponseModel.BaseResponse;
+import com.google.gson.internal.LazilyParsedNumber;
 import org.mindrot.jbcrypt.BCrypt;
 
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
 import static Service.JWTService.checkTokenReturnId;
+import static Utilities.Utility.convertJsonObjectToMap;
 import static Utilities.Utility.log;
 
 public class UserService {
-    private static final UserDAO userDAO = new UserDAO();
 
     public static String login(UserLoginModel userLoginModel) throws Exception {
         User user = UserDAO.getUserByEmail(userLoginModel);
@@ -47,7 +53,7 @@ public class UserService {
                     userRegisterInputDTO.getnidBackSide(),
                     userRegisterInputDTO.getSelfie()
             );
-            if (userDAO.register(user) == 1) {
+            if (UserDAO.register(user) == 1) {
                 throw new SQLException("Something went wrong");
             } else
                 return ResponseStatus.Success.toString();
@@ -60,16 +66,52 @@ public class UserService {
     public static void logout(String token) throws SQLException {
         Long id = checkTokenReturnId(token);
         Session session = compareTokenWithStoredSession(id, token);
-//        if (userDAO.changeSessionStatus(session.getId(), SessionStatus.LOGGED_OUT) != 1) {
-//            throw new SQLException("unauthorized");
-//        }
+        UserDAO.changeSessionStatus(session.getId(), SessionStatus.LOGOUT.toString());
     }
 
     public static Session compareTokenWithStoredSession(Long id, String token) throws SQLException {
         Session session = UserDAO.getUserSession(id);
         if (session == null || !session.getToken().equals(token)) {
-            throw new SQLException("unauthorized");
+            throw new SQLException("Unauthorized");
         }
         return session;
+    }
+
+    public static Session mapToSession(BaseResponse response) {
+        if (!response.getStatus().equals("Error")) {
+            Session session = new Session();
+            Map<String, Object> sessionMap = convertJsonObjectToMap(response.getData());
+
+            Integer id = (Integer) sessionMap.get("id");
+            LazilyParsedNumber userId = (LazilyParsedNumber) sessionMap.get("user_id");
+
+            session.setId(Long.valueOf(id));
+            session.setUserId(userId.longValue());
+            session.setToken((String) sessionMap.get("token"));
+            session.setStatus((String) sessionMap.get("status"));
+
+            String creationTime = (String) sessionMap.get("creation_date");
+            session.setCreationTime(LocalDateTime.parse(creationTime, DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SS")));
+
+            return session;
+        } else {
+            return null;
+        }
+    }
+
+    public static User mapToUser(BaseResponse userRow) {
+        if (!userRow.getStatus().equals("Error")) {
+            User user = new User();
+            Map<String, Object> userMap = convertJsonObjectToMap(userRow.getData());
+
+            Integer id = (Integer) userMap.get("id");
+            user.setId(Long.valueOf(id));
+            user.setEmail((String) userMap.get("email"));
+            user.setPassword((String) userMap.get("password"));
+            user.setFullName((String) userMap.get("full_name"));
+            return user;
+        } else {
+            return null;
+        }
     }
 }

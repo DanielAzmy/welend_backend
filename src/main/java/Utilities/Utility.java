@@ -13,7 +13,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Logger;
 
 public class Utility {
@@ -72,6 +75,33 @@ public class Utility {
 
             return baseResponse;
         }
+    }
+
+
+    public static Map<String, Object> convertJsonObjectToMap(Object data) {
+        JsonArray jsonArray = (JsonArray) data;
+        JsonObject jsonObject = jsonArray.get(0).getAsJsonObject();
+
+        Map<String, Object> map = new HashMap<>();
+        Set<Map.Entry<String, JsonElement>> entrySet = jsonObject.entrySet();
+        for (Map.Entry<String, JsonElement> entry : entrySet) {
+            String key = entry.getKey();
+            JsonElement value = entry.getValue();
+            if (value instanceof JsonPrimitive) {
+                JsonPrimitive jsonPrimitive = (JsonPrimitive) value;
+                if (jsonPrimitive.isNumber()) {
+                    map.put(key, jsonPrimitive.getAsNumber());
+                } else if (jsonPrimitive.isString()) {
+                    map.put(key, jsonPrimitive.getAsString());
+                } else if (jsonPrimitive.isBoolean()) {
+                    map.put(key, jsonPrimitive.getAsBoolean());
+                }
+            } else if (value.isJsonObject()) {
+                map.put(key, convertJsonObjectToMap(value.getAsJsonObject()));
+            }
+        }
+
+        return map;
     }
 
 // ? to call the postrequest function

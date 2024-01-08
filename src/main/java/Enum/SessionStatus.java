@@ -1,5 +1,5 @@
 package Enum;
 
 public enum SessionStatus {
-    VALID, EXPIRED
+    VALID, EXPIRED, LOGOUT
 }

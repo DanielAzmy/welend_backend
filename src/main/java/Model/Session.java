@@ -11,6 +11,14 @@ public class Session {
     private String token;
     private String status;
 
+    public Session() {
+    }
+
+    public Session(long id, String status) {
+        this.id = id;
+        this.status = status;
+    }
+
     public Session(LocalDateTime creationTime, String status, String token, long userId) {
         this.creationTime = creationTime;
         this.userId = userId;

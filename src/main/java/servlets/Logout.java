@@ -35,6 +35,5 @@ public class Logout extends HttpServlet {
             BaseResponse result = new BaseResponse(ResponseStatus.Error.toString(), e.getMessage(),null);
             handleResponse(resp, result);
         }
-
     }
 }

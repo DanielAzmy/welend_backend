@@ -44,7 +44,15 @@ public class JWTService {
         return calendar.getTime();
     }
 
-    public static DecodedJWT parseToken(String token) {
+    public static Long checkTokenReturnId(String token) throws SQLException {
+        DecodedJWT decodedJWT = parseToken(token);
+        if (decodedJWT == null) {
+            throw new SQLException("Session Expired");
+        }
+        return decodedJWT.getClaim("id").asLong();
+    }
+
+    private static DecodedJWT parseToken(String token) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secretKey);
             JWTVerifier verifier = JWT.require(algorithm).build();
@@ -52,12 +60,5 @@ public class JWTService {
         } catch (JWTVerificationException exception) {
             return null;
         }
-    }
-    public static Long checkTokenReturnId(String token) throws SQLException {
-        DecodedJWT decodedJWT = parseToken(token);
-        if (decodedJWT == null) {
-            throw new SQLException("unauthorized");
-        }
-        return decodedJWT.getClaim("id").asLong();
     }
 }

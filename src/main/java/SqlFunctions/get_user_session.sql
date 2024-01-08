@@ -22,4 +22,4 @@ end;
 $$
 language plpgsql;
 
-select * from public.get_user_session(1);
+--select * from public.get_user_session(1);

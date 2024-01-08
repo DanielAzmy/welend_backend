@@ -3,10 +3,10 @@ package DAO;
 import DTO.SessionDTO;
 import Model.Session;
 import Model.User;
+import Enum.SessionStatus;
 import RequestModel.UserLoginModel;
 import ResponseModel.BaseResponse;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.google.gson.internal.LazilyParsedNumber;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import servlets.DbConnection;
 
@@ -14,13 +14,18 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Map;
 
+import static Service.UserService.mapToSession;
+import static Service.UserService.mapToUser;
 import static Utilities.Utility.*;
 
 public class UserDAO<T> {
     public static Connection con;
 
-    public int register(User user) throws SQLException {
+    public static int register(User user) throws SQLException {
         try {
             con = DbConnection.getNewConnection();
             String query = "INSERT INTO public.user (email, password, nid_front_side, nid_back_side, selfie)"
@@ -44,38 +49,28 @@ public class UserDAO<T> {
         String sql = "select * from public.get_user_by_email(:email);";
         BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(userLoginModel);
         String userString = jdbcTemplate.queryForObject(sql, params, String.class);
-        BaseResponse data = gson.fromJson(userString, BaseResponse.class);
-        return mapToUser(data);
+        BaseResponse response = gson.fromJson(userString, BaseResponse.class);
+        return mapToUser(response);
     }
 
     public static Session getUserSession(Long id) throws SQLException {
         try {
-            String sql = "select * from public.get_user_session(:id);";
+            String sql = "select get_user_session(:id);";
             SessionDTO sessionDTO = new SessionDTO(Math.toIntExact(id));
             BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(sessionDTO);
             String sessionString = jdbcTemplate.queryForObject(sql, params, String.class);
-            BaseResponse data = gson.fromJson(sessionString, BaseResponse.class);
-            return null;
+            BaseResponse response = gson.fromJson(sessionString, BaseResponse.class);
+            return mapToSession(response);
         } catch (Exception e) {
             log.info("Error in getUserSession...");
             throw new SQLException(e.getMessage());
         }
     }
 
-
-    public static User mapToUser(BaseResponse userRow) {
-        if (!userRow.getStatus().equals("Error")) {
-            User user = new User();
-            JsonArray userData = (JsonArray) userRow.getData();
-            JsonObject jsonObject = userData.get(0).getAsJsonObject();
-
-            user.setId(jsonObject.getAsJsonPrimitive("id").getAsLong());
-            user.setEmail(jsonObject.getAsJsonPrimitive("email").getAsString());
-            user.setPassword(jsonObject.getAsJsonPrimitive("password").getAsString());
-            return user;
-        } else {
-            return null;
-        }
+    public static String changeSessionStatus(long id, String status) {
+        String sql = "select change_session_status(:id, :status);";
+        BeanPropertySqlParameterSource params = new BeanPropertySqlParameterSource(new Session(id, status));
+        return jdbcTemplate.queryForObject(sql, params, String.class);
     }
 
     public User getUser(String columnName, T columnValue) throws SQLException {
