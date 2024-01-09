@@ -1,10 +1,8 @@
 package Service;
 
-import DAO.SessionDAO;
-import DAO.UserDAO;
+import DAO.*;
 import DTO.UserRegisterInputDTO;
-import Enum.SessionStatus;
-import Enum.ResponseStatus;
+import Enum.*;
 import Model.Session;
 import Model.User;
 import RequestModel.UserLoginModel;
@@ -18,8 +16,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Map;
 
 import static Service.JWTService.checkTokenReturnId;
-import static Utilities.Utility.convertJsonObjectToMap;
-import static Utilities.Utility.log;
+import static Utilities.Utility.*;
 
 public class UserService {
 

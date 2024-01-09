@@ -3,10 +3,8 @@ package DAO;
 import DTO.SessionDTO;
 import Model.Session;
 import Model.User;
-import Enum.SessionStatus;
 import RequestModel.UserLoginModel;
 import ResponseModel.BaseResponse;
-import com.google.gson.internal.LazilyParsedNumber;
 import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
 import servlets.DbConnection;
 
@@ -14,9 +12,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Map;
 
 import static Service.UserService.mapToSession;
 import static Service.UserService.mapToUser;

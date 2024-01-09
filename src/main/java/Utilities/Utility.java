@@ -105,7 +105,7 @@ public class Utility {
     }
 
 // ? to call the postrequest function
-//    RequestInputModel<CredsModel> myRequest = new RequestInputModel<>();
+//    RequestInputModel<CredentialsDTO> myRequest = new RequestInputModel<>();
 //
 //            myRequest.setURL("https://api.doxter.ai/auth/tokenAuth/");
 //
@@ -113,7 +113,7 @@ public class Utility {
 //            headers.add(new String[]{"Content-Type", "application/json"});
 //            myRequest.setHeaders(headers);
 //
-//    CredsModel creds = new CredsModel("Oasis-Accelerator", "ucXGUfTjvNPc2VFg");
+//    CredentialsDTO creds = new CredentialsDTO("Oasis-Accelerator", "ucXGUfTjvNPc2VFg");
 //            myRequest.setBody(creds);
 //
 //    String response = postRequest(myRequest);
